@@ -85,9 +85,9 @@ class SBAccount extends account{
         int choice = s.nextInt();
         
         switch(choice){
-            case 1: interestRate = 4/100;
+            case 1: interestRate = 0.04;
             break;
-            case 2: interestRate = 6/100;
+            case 2: interestRate = 0.06;
             break;
             default: System.out.println("Wrong Choice.");
         }
