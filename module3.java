@@ -10,21 +10,36 @@
  */ 
 import java.util.*;
 
+class myException extends Exception{
+    myException(String s){
+        super(s);
+    }
+    
+}
+
 abstract class account{
     double interestRate, amount;
-    abstract double calculateinterest(double amount);
+    abstract double calculateinterest(double amount) throws myException;
 }
 
 class FDAccount extends account{
     double interest, interestRate, amount, general=1, sCitizen=1;
     int noOfDays, age;
-    double calculateinterest(double amount){
+    double calculateinterest(double amount) throws myException{
         this.amount = amount;
         Scanner s = new Scanner(System.in);
         System.out.println("Enter Number Of Days: ");
         noOfDays = s.nextInt();
+        if(noOfDays<0){
+            throw new myException("Days Should be Greater than 0.");
+        }
+        else{
         System.out.println("Ënter Age: ");
         age = s.nextInt();
+        if(age<0){
+            throw new myException("Age must be greater than 0.");
+        }
+        else{
         if(amount<10000000){
             if(noOfDays>=7 && noOfDays<=14){
                 general = 5.50;
@@ -71,6 +86,8 @@ class FDAccount extends account{
                 interestRate = 10.00;
             }   
         }
+        }
+        }
         interestRate = (age<50)?general : sCitizen;
       return interest = amount * interestRate;  
     }
@@ -78,7 +95,7 @@ class FDAccount extends account{
 
 class SBAccount extends account{
     double interest, interestRate, amount;
-    double calculateinterest(double amount){
+    double calculateinterest(double amount) throws myException{
         this.amount = amount;
         System.out.println("Select Account Type: \n1. Normal\n2. NRI");
         Scanner s = new Scanner(System.in);
@@ -91,7 +108,6 @@ class SBAccount extends account{
             break;
             default: System.out.println("Wrong Choice.");
         }
-        
       return amount * interestRate;  
     }
 }
@@ -99,14 +115,21 @@ class SBAccount extends account{
 class RDAccount extends account{
     double interest, interestRate, amount, monthlyAmount, general=1, sCitizen=1;
     int noOfMonths, age;
-    double calculateinterest(double amount){
+    double calculateinterest(double amount) throws myException{
         this.amount = amount;
         Scanner s = new Scanner(System.in);
-        System.out.println("Enter Number Of Days: ");
+        System.out.println("Enter Number Of Months: ");
         noOfMonths = s.nextInt();
+        if(noOfMonths<0){
+            throw new myException("Months should be greater than 0.");
+        }
+        else{
         System.out.println("Ënter Age: ");
         age = s.nextInt();
-        
+        if(age<0){
+            throw new myException("Age should be greater than 0.");
+        }
+        else{
             if(noOfMonths == 6){
                 general = 5.50;
                 sCitizen = 6.00;
@@ -131,6 +154,8 @@ class RDAccount extends account{
                 general = 8.00;
                 sCitizen = 8.50;
             }
+        }
+        }
             
       interestRate = (age<50)?general : sCitizen;
       return interest = amount * interestRate;  
@@ -152,27 +177,44 @@ public class module3 {
                 case 1: SBAccount ob1 = new SBAccount();
                         System.out.println("Enter Amount: ");
                         amount = s.nextInt();
+                        try{
                         System.out.println("Interest: " +ob1.calculateinterest(amount));
+                        }
+                        catch (Exception m){
+                            System.out.println("Exception occured: "+m);
+                        }
                         break;
                         
                 case 2: FDAccount ob2 = new FDAccount();
                         System.out.println("Enter Amount: ");
                         amount = s.nextInt();
+                        try{
                         System.out.println("Interest: " +ob2.calculateinterest(amount));
+                        }
+                        catch (Exception m){
+                            System.out.println("Exception occured: "+m);
+                        }
                         break;
                         
                 case 3: RDAccount ob3 = new RDAccount();
                         System.out.println("Enter Amount: ");
                         amount = s.nextInt();
+                        try{
                         System.out.println("Interest: " +ob3.calculateinterest(amount));
+                        }
+                        catch (Exception m){
+                            System.out.println("Exception occured: "+m);
+                        }
                         break;
+                        
+                case 4: System.exit(t);
                 
                 default:
                         System.out.println("Wrong Choice: ");
             }
             
          t--;   
-        }while(t>0);
+        }while(t!=0);
      
     }
     
